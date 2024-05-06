@@ -4,7 +4,7 @@ extends CharacterBody2D
 @export var interact_text: Array[String]
 
 func interact():
-	dialouge_box.open()
-	dialouge_box.set_text_series(interact_text)
+    dialouge_box.open()
+    dialouge_box.set_text_series(interact_text)
 
 

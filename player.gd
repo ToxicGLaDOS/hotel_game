@@ -7,15 +7,15 @@ class_name Player
 enum directions {UP, RIGHT, DOWN, LEFT}
 
 var facing = directions.UP
-var player_disabled = true
+var player_enabled = true
 
 
 func _draw():
     if Input.is_action_pressed("interact"):
-        draw_line(Vector2(0,0), Vector2(interact_distance,0), Color.GREEN, 1.0)
+        draw_line(Vector2(0,0), facing_as_vector() * interact_distance, Color.GREEN, 1.0)
 
 func _physics_process(_delta):
-    if player_disabled:
+    if player_enabled:
         var vertical = Input.get_axis("move_up", "move_down")
         if vertical:
             velocity.y = vertical * SPEED
@@ -48,7 +48,7 @@ func _physics_process(_delta):
         if Input.is_action_just_pressed("interact"):
             var space_state = get_world_2d().direct_space_state
             # use global coordinates, not local to node
-            var query = PhysicsRayQueryParameters2D.create(position, position + Vector2(interact_distance, 0))
+            var query = PhysicsRayQueryParameters2D.create(position, position + facing_as_vector() * interact_distance)
             var result = space_state.intersect_ray(query)
             if result and result.collider.has_method("interact"):
                 result.collider.interact()
@@ -59,8 +59,18 @@ func _physics_process(_delta):
 
         move_and_slide()
 
+func facing_as_vector():
+    if facing == directions.UP:
+        return Vector2(0, -1)
+    elif facing == directions.RIGHT:
+        return Vector2(1, 0)
+    elif facing == directions.DOWN:
+        return Vector2(0, 1)
+    elif facing == directions.LEFT:
+        return Vector2(-1, 0)
+
 func enable_player():
-    player_disabled = true
+    player_enabled = true
 
 func disable_player():
-    player_disabled = false
+    player_enabled = false

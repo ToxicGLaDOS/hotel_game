@@ -17,7 +17,7 @@ func _process(_delta):
         # If we're on the last text in the series
         if current_text == len(text_series) - 1:
             close()
-        else:
+        elif current_text < len(text_series) - 1:
             current_text += 1
             rich_text.text = text_series[current_text]
 

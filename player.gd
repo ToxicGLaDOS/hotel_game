@@ -4,15 +4,38 @@ class_name Player
 @export var SPEED: float
 @export var animation: AnimatedSprite2D
 @export var interact_distance: int
+@export var tilemap: TileMap
 enum directions {UP, RIGHT, DOWN, LEFT}
 
 var facing = directions.UP
 var player_enabled = true
+var transparent_layer = 3
 
 
 func _draw():
     if Input.is_action_pressed("interact"):
         draw_line(Vector2(0,0), facing_as_vector() * interact_distance, Color.GREEN, 1.0)
+
+func _process(_delta):
+    tilemap.clear_layer(transparent_layer)
+    tilemap.set_cell(transparent_layer, tilemap.local_to_map(get_interaction_point()), 2, Vector2i(0,2))
+    if player_enabled:
+        if Input.is_action_just_pressed("interact"):
+            var space_state = get_world_2d().direct_space_state
+            # use global coordinates, not local to node
+            var query = PhysicsRayQueryParameters2D.create(position, position + facing_as_vector() * interact_distance)
+            var result = space_state.intersect_ray(query)
+            if result and result.collider.has_method("interact"):
+                result.collider.interact()
+            else:
+                var player_interaction_layer = 2
+                var tileset_id = 2
+                var place_tile_position = tilemap.local_to_map(get_interaction_point())
+                tilemap.set_cell(player_interaction_layer, place_tile_position, tileset_id, Vector2i(0,2))
+
+            # This is just for debug
+            if Input.is_action_pressed("interact") or Input.is_action_just_released("interact"):
+                queue_redraw()
 
 func _physics_process(_delta):
     if player_enabled:
@@ -45,19 +68,19 @@ func _physics_process(_delta):
                 facing = directions.UP
                 animation.animation = "walking_up"
 
-        if Input.is_action_just_pressed("interact"):
-            var space_state = get_world_2d().direct_space_state
-            # use global coordinates, not local to node
-            var query = PhysicsRayQueryParameters2D.create(position, position + facing_as_vector() * interact_distance)
-            var result = space_state.intersect_ray(query)
-            if result and result.collider.has_method("interact"):
-                result.collider.interact()
-
-        # This is just for debug
-        if Input.is_action_pressed("interact") or Input.is_action_just_released("interact"):
-            queue_redraw()
-
         move_and_slide()
+
+func get_interaction_point():
+    var player_size = find_child("CollisionShape2D").shape.size
+    var extra_length = 0
+    if facing == directions.UP or facing == directions.DOWN:
+        # 16 is the size of a tile in the tilemap
+        # we use that so that we never place something
+        # on top of ourselves
+        extra_length = player_size.y / 2 + 16
+    else:
+        extra_length = player_size.x / 2 + 16
+    return position + facing_as_vector() * extra_length
 
 func facing_as_vector():
     if facing == directions.UP:

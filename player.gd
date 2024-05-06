@@ -4,21 +4,24 @@ class_name Player
 @export var SPEED: float
 @export var animation: AnimatedSprite2D
 @export var interact_distance: int
-@export var tilemap: TileMap
+@export var preview_tilemap: TileMap
+@export var real_tilemap: TileMap
 enum directions {UP, RIGHT, DOWN, LEFT}
 
 var facing = directions.UP
 var player_enabled = true
-var transparent_layer = 3
+var transparent_layer = 0
+var tileset_source_id = 0
 
 
 func _draw():
+    draw_line(Vector2(0,0), get_interaction_point() - position , Color.GREEN, 1.0)
     if Input.is_action_pressed("interact"):
         draw_line(Vector2(0,0), facing_as_vector() * interact_distance, Color.GREEN, 1.0)
 
 func _process(_delta):
-    tilemap.clear_layer(transparent_layer)
-    tilemap.set_cell(transparent_layer, tilemap.local_to_map(get_interaction_point()), 2, Vector2i(0,2))
+    preview_tilemap.clear_layer(transparent_layer)
+    preview_tilemap.set_cell(transparent_layer, preview_tilemap.local_to_map(get_interaction_point()), tileset_source_id, Vector2i(0,2))
     if player_enabled:
         if Input.is_action_just_pressed("interact"):
             var space_state = get_world_2d().direct_space_state
@@ -30,8 +33,8 @@ func _process(_delta):
             else:
                 var player_interaction_layer = 2
                 var tileset_id = 2
-                var place_tile_position = tilemap.local_to_map(get_interaction_point())
-                tilemap.set_cell(player_interaction_layer, place_tile_position, tileset_id, Vector2i(0,2))
+                var place_tile_position = real_tilemap.local_to_map(get_interaction_point())
+                real_tilemap.set_cell(player_interaction_layer, place_tile_position, tileset_id, Vector2i(0,2))
 
             # This is just for debug
             if Input.is_action_pressed("interact") or Input.is_action_just_released("interact"):

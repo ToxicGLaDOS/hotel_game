@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://c85upihop1f2h"]
+[gd_scene load_steps=31 format=3 uid="uid://c85upihop1f2h"]
 
 [ext_resource type="Texture2D" uid="uid://6w00xex8cejs" path="res://images/char_01.png" id="1_audty"]
 [ext_resource type="Script" path="res://player.gd" id="1_im0n3"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://npc.gd" id="3_axne1"]
 [ext_resource type="Texture2D" uid="uid://f45jrlxjpuu4" path="res://images/char_04.png" id="3_q1weh"]
 [ext_resource type="Texture2D" uid="uid://c1573yuhpdxjd" path="res://images/dialogue_popup.png" id="5_e6cjm"]
+[ext_resource type="Texture2D" uid="uid://b12poelkjcx7h" path="res://images/ts_interiorDecorations.png" id="6_3dfvk"]
 [ext_resource type="Script" path="res://dialouge_box.gd" id="6_qdxx0"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_82bhj"]
@@ -169,18 +170,104 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_auj7o"]
+texture = ExtResource("6_3dfvk")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+5:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+3:5/0 = 0
+4:5/0 = 0
+5:5/0 = 0
+0:6/0 = 0
+1:6/0 = 0
+2:6/0 = 0
+3:6/0 = 0
+4:6/0 = 0
+5:6/0 = 0
+0:7/0 = 0
+1:7/0 = 0
+3:7/0 = 0
+0:8/0 = 0
+1:8/0 = 0
+2:8/0 = 0
+3:8/0 = 0
+4:8/0 = 0
+5:8/0 = 0
+6:8/0 = 0
+7:8/0 = 0
+0:9/0 = 0
+1:9/0 = 0
+2:9/0 = 0
+3:9/0 = 0
+4:9/0 = 0
+5:9/0 = 0
+6:9/0 = 0
+7:9/0 = 0
+0:10/0 = 0
+0:11/0 = 0
+1:11/0 = 0
+2:11/0 = 0
+3:11/0 = 0
+4:11/0 = 0
+5:11/0 = 0
+6:11/0 = 0
+7:11/0 = 0
+0:12/0 = 0
+1:12/0 = 0
+2:12/0 = 0
+3:12/0 = 0
+4:12/0 = 0
+5:12/0 = 0
+6:12/0 = 0
+7:12/0 = 0
+0:13/0 = 0
+1:13/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_mlvrc"]
+sources/0 = SubResource("TileSetAtlasSource_auj7o")
+
 [sub_resource type="CanvasTexture" id="CanvasTexture_4n076"]
 diffuse_texture = ExtResource("5_e6cjm")
 
 [node name="Node2D" type="Node2D"]
 
-[node name="PlayerBody2D" type="CharacterBody2D" parent="." node_paths=PackedStringArray("animation", "tilemap")]
+[node name="PlayerBody2D" type="CharacterBody2D" parent="." node_paths=PackedStringArray("animation", "preview_tilemap", "real_tilemap")]
 motion_mode = 1
 script = ExtResource("1_im0n3")
 SPEED = 100.0
 animation = NodePath("AnimatedSprite2D")
 interact_distance = 16
-tilemap = NodePath("../TileMap")
+preview_tilemap = NodePath("../PlacementPreviewTileMap")
+real_tilemap = NodePath("../TileMap")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="PlayerBody2D"]
 texture_filter = 1
@@ -220,6 +307,11 @@ layer_2/tile_data = PackedInt32Array()
 layer_3/name = "Tranparent"
 layer_3/modulate = Color(1, 1, 1, 0.478431)
 layer_3/tile_data = PackedInt32Array()
+
+[node name="PlacementPreviewTileMap" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_mlvrc")
+format = 2
+layer_0/modulate = Color(1, 1, 1, 0.568627)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

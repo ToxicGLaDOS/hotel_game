@@ -15,7 +15,7 @@ var tileset_source_id = 0
 
 
 func _draw():
-    draw_line(Vector2(0,0), get_interaction_point() - position , Color.GREEN, 1.0)
+    draw_line(Vector2(0,0), get_interaction_point() - position , Color.RED, 1.0)
     if Input.is_action_pressed("interact"):
         draw_line(Vector2(0,0), facing_as_vector() * interact_distance, Color.GREEN, 1.0)
 
@@ -84,6 +84,8 @@ func can_place():
 
 func get_interaction_point():
     var player_size = find_child("CollisionShape2D").shape.size
+    var collision_position = find_child("CollisionShape2D").global_position
+
     var extra_length = 0
     if facing == directions.UP or facing == directions.DOWN:
         # 16 is the size of a tile in the tilemap
@@ -92,7 +94,7 @@ func get_interaction_point():
         extra_length = player_size.y / 2 + 16
     else:
         extra_length = player_size.x / 2 + 16
-    return position + facing_as_vector() * extra_length
+    return collision_position + facing_as_vector() * extra_length
 
 func facing_as_vector():
     if facing == directions.UP:

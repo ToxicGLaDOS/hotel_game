@@ -9,88 +9,6 @@
 [ext_resource type="Texture2D" uid="uid://b12poelkjcx7h" path="res://images/ts_interiorDecorations.png" id="6_3dfvk"]
 [ext_resource type="Script" path="res://dialouge_box.gd" id="6_qdxx0"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_82bhj"]
-atlas = ExtResource("1_audty")
-region = Rect2(0, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_io45b"]
-atlas = ExtResource("1_audty")
-region = Rect2(16, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_w8bf7"]
-atlas = ExtResource("1_audty")
-region = Rect2(0, 16, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_h7tv0"]
-atlas = ExtResource("1_audty")
-region = Rect2(16, 16, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_jefb5"]
-atlas = ExtResource("1_audty")
-region = Rect2(0, 32, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_w3tsf"]
-atlas = ExtResource("1_audty")
-region = Rect2(16, 32, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_xdgm4"]
-atlas = ExtResource("1_audty")
-region = Rect2(0, 48, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_uq47c"]
-atlas = ExtResource("1_audty")
-region = Rect2(16, 48, 16, 16)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_ph582"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_82bhj")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_io45b")
-}],
-"loop": true,
-"name": &"walking_down",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_w8bf7")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_h7tv0")
-}],
-"loop": true,
-"name": &"walking_left",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_jefb5")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_w3tsf")
-}],
-"loop": true,
-"name": &"walking_right",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_xdgm4")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_uq47c")
-}],
-"loop": true,
-"name": &"walking_up",
-"speed": 5.0
-}]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_qwxx6"]
-size = Vector2(12, 16)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_m6fue"]
 atlas = ExtResource("3_q1weh")
 region = Rect2(0, 0, 16, 16)
@@ -169,6 +87,9 @@ animations = [{
 "name": &"walking_up",
 "speed": 5.0
 }]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qwxx6"]
+size = Vector2(12, 8)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_auj7o"]
 texture = ExtResource("6_3dfvk")
@@ -255,27 +176,89 @@ texture = ExtResource("6_3dfvk")
 [sub_resource type="TileSet" id="TileSet_mlvrc"]
 sources/0 = SubResource("TileSetAtlasSource_auj7o")
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_82bhj"]
+atlas = ExtResource("1_audty")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_io45b"]
+atlas = ExtResource("1_audty")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w8bf7"]
+atlas = ExtResource("1_audty")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h7tv0"]
+atlas = ExtResource("1_audty")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jefb5"]
+atlas = ExtResource("1_audty")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w3tsf"]
+atlas = ExtResource("1_audty")
+region = Rect2(16, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xdgm4"]
+atlas = ExtResource("1_audty")
+region = Rect2(0, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uq47c"]
+atlas = ExtResource("1_audty")
+region = Rect2(16, 48, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ph582"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_82bhj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_io45b")
+}],
+"loop": true,
+"name": &"walking_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w8bf7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h7tv0")
+}],
+"loop": true,
+"name": &"walking_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jefb5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w3tsf")
+}],
+"loop": true,
+"name": &"walking_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xdgm4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uq47c")
+}],
+"loop": true,
+"name": &"walking_up",
+"speed": 5.0
+}]
+
 [sub_resource type="CanvasTexture" id="CanvasTexture_4n076"]
 diffuse_texture = ExtResource("5_e6cjm")
 
 [node name="Node2D" type="Node2D"]
-
-[node name="PlayerBody2D" type="CharacterBody2D" parent="." node_paths=PackedStringArray("animation", "preview_tilemap", "real_tilemap")]
-motion_mode = 1
-script = ExtResource("1_im0n3")
-SPEED = 100.0
-animation = NodePath("AnimatedSprite2D")
-interact_distance = 16
-preview_tilemap = NodePath("../PlacementPreviewTileMap")
-real_tilemap = NodePath("../TileMap")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="PlayerBody2D"]
-texture_filter = 1
-sprite_frames = SubResource("SpriteFrames_ph582")
-animation = &"walking_up"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerBody2D"]
-shape = SubResource("RectangleShape2D_qwxx6")
 
 [node name="CharacterBody2D2" type="CharacterBody2D" parent="." node_paths=PackedStringArray("dialouge_box")]
 position = Vector2(76, -79)
@@ -312,6 +295,24 @@ layer_3/tile_data = PackedInt32Array()
 tile_set = SubResource("TileSet_mlvrc")
 format = 2
 layer_0/modulate = Color(1, 1, 1, 0.568627)
+
+[node name="PlayerBody2D" type="CharacterBody2D" parent="." node_paths=PackedStringArray("animation", "preview_tilemap", "real_tilemap")]
+motion_mode = 1
+script = ExtResource("1_im0n3")
+SPEED = 100.0
+animation = NodePath("AnimatedSprite2D")
+interact_distance = 16
+preview_tilemap = NodePath("../PlacementPreviewTileMap")
+real_tilemap = NodePath("../TileMap")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="PlayerBody2D"]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_ph582")
+animation = &"walking_up"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerBody2D"]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_qwxx6")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

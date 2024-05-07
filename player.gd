@@ -21,7 +21,11 @@ func _draw():
 
 func _process(_delta):
     preview_tilemap.clear_layer(transparent_layer)
-    preview_tilemap.set_cell(transparent_layer, preview_tilemap.local_to_map(get_interaction_point()), tileset_source_id, Vector2i(0,2))
+
+    # Create the preview of the placement
+    if can_place():
+        preview_tilemap.set_cell(transparent_layer, preview_tilemap.local_to_map(get_interaction_point()), tileset_source_id, Vector2i(0,2))
+
     if player_enabled:
         if Input.is_action_just_pressed("interact"):
             var space_state = get_world_2d().direct_space_state
@@ -30,7 +34,7 @@ func _process(_delta):
             var result = space_state.intersect_ray(query)
             if result and result.collider.has_method("interact"):
                 result.collider.interact()
-            else:
+            elif can_place():
                 var player_interaction_layer = 2
                 var tileset_id = 2
                 var place_tile_position = real_tilemap.local_to_map(get_interaction_point())
@@ -72,6 +76,11 @@ func _physics_process(_delta):
                 animation.animation = "walking_up"
 
         move_and_slide()
+
+func can_place():
+    var interaction_point = real_tilemap.local_to_map(get_interaction_point())
+    var real_tile_data = real_tilemap.get_cell_tile_data(1, interaction_point)
+    return real_tile_data == null
 
 func get_interaction_point():
     var player_size = find_child("CollisionShape2D").shape.size

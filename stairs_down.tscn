@@ -21,3 +21,7 @@ texture = SubResource("AtlasTexture_m0vfm")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_jr4wl")
+
+[node name="WarpPoint" type="Node2D" parent="."]
+
+[node name="CameraPoint" type="Node2D" parent="."]

@@ -299,21 +299,25 @@ layer_3/name = "Tranparent"
 layer_3/modulate = Color(1, 1, 1, 0.478431)
 layer_3/tile_data = PackedInt32Array()
 
-[node name="EntryToBasementStairs" parent="TileMap" node_paths=PackedStringArray("transition_point", "camera_point") instance=ExtResource("4_4lrxs")]
+[node name="EntryToBasementStairs" parent="TileMap" node_paths=PackedStringArray("linked_stairs") instance=ExtResource("4_4lrxs")]
 position = Vector2(88, 24)
-transition_point = NodePath("../BasementToEntryStairs/BasementStairWarpPoint")
-camera_point = NodePath("../../BasementCameraPoint")
+linked_stairs = NodePath("../BasementToEntryStairs")
 
-[node name="EntryStairWarpPoint" type="Node2D" parent="TileMap/EntryToBasementStairs"]
+[node name="WarpPoint" parent="TileMap/EntryToBasementStairs" index="2"]
 position = Vector2(-16, 0)
 
-[node name="BasementToEntryStairs" parent="TileMap" node_paths=PackedStringArray("transition_point", "camera_point") instance=ExtResource("5_jruj5")]
-position = Vector2(456, 8)
-transition_point = NodePath("../EntryToBasementStairs/EntryStairWarpPoint")
-camera_point = NodePath("../../EntryCameraPoint")
+[node name="CameraPoint" parent="TileMap/EntryToBasementStairs" index="3"]
+position = Vector2(-64, -48)
 
-[node name="BasementStairWarpPoint" type="Node2D" parent="TileMap/BasementToEntryStairs"]
+[node name="BasementToEntryStairs" parent="TileMap" node_paths=PackedStringArray("linked_stairs") instance=ExtResource("5_jruj5")]
+position = Vector2(456, 8)
+linked_stairs = NodePath("../EntryToBasementStairs")
+
+[node name="WarpPoint" parent="TileMap/BasementToEntryStairs" index="2"]
 position = Vector2(16, 0)
+
+[node name="CameraPoint" parent="TileMap/BasementToEntryStairs" index="3"]
+position = Vector2(128, -96)
 
 [node name="PlacementPreviewTileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_mlvrc")
@@ -384,10 +388,7 @@ theme_override_colors/default_color = Color(0.0588235, 0.0588235, 0.0588235, 1)
 theme_override_font_sizes/normal_font_size = 23
 text = "Hello goober. You're a goofball teehee"
 
-[node name="EntryCameraPoint" type="Node2D" parent="."]
-position = Vector2(24, -24)
-
-[node name="BasementCameraPoint" type="Node2D" parent="."]
-position = Vector2(568, -72)
-
 [connection signal="area_entered" from="PlayerBody2D/TransitionTrigger" to="PlayerBody2D" method="_on_transition_trigger_area_entered"]
+
+[editable path="TileMap/EntryToBasementStairs"]
+[editable path="TileMap/BasementToEntryStairs"]

@@ -117,5 +117,7 @@ func disable_player():
 # --- SIGNALS ---
 func _on_transition_trigger_area_entered(area: Area2D):
     if area is Stairs:
+        print(area)
+        print('warp to: ', area.transition_point.global_position)
         position = area.transition_point.global_position
         camera.position = area.camera_point.global_position

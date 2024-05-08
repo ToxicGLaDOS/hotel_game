@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://c2jwbm061qoiq"]
+
+[ext_resource type="PackedScene" uid="uid://dib7ao0bk4044" path="res://stairs_down.tscn" id="1_ubuqp"]
+[ext_resource type="Texture2D" uid="uid://b12poelkjcx7h" path="res://images/ts_interiorDecorations.png" id="2_l6nix"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0teh6"]
+atlas = ExtResource("2_l6nix")
+region = Rect2(48, 64, 16, 16)
+
+[node name="Area2D" instance=ExtResource("1_ubuqp")]
+
+[node name="Stairs" parent="." index="0"]
+texture = SubResource("AtlasTexture_0teh6")

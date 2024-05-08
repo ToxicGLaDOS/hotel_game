@@ -6,6 +6,7 @@ class_name Player
 @export var interact_distance: int
 @export var preview_tilemap: TileMap
 @export var real_tilemap: TileMap
+@export var camera: Camera2D
 enum directions {UP, RIGHT, DOWN, LEFT}
 
 var facing = directions.UP
@@ -111,3 +112,10 @@ func enable_player():
 
 func disable_player():
     player_enabled = false
+
+
+# --- SIGNALS ---
+func _on_transition_trigger_area_entered(area: Area2D):
+    if area is Stairs:
+        position = area.transition_point.global_position
+        camera.position = area.camera_point.global_position

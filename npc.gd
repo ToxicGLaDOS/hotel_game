@@ -6,5 +6,3 @@ extends CharacterBody2D
 func interact():
     dialouge_box.open()
     dialouge_box.set_text_series(interact_text)
-
-

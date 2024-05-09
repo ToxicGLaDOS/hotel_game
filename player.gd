@@ -7,6 +7,7 @@ class_name Player
 @export var preview_tilemap: TileMap
 @export var real_tilemap: TileMap
 @export var camera: Camera2D
+@export var item_selector: ItemSelector
 enum directions {UP, RIGHT, DOWN, LEFT}
 
 var facing = directions.UP
@@ -25,9 +26,13 @@ func _process(_delta):
 
     # Create the preview of the placement
     if can_place():
-        preview_tilemap.set_cell(transparent_layer, preview_tilemap.local_to_map(get_interaction_point()), tileset_source_id, Vector2i(0,2))
+        preview_tilemap.set_cell(transparent_layer, preview_tilemap.local_to_map(get_interaction_point()), tileset_source_id, item_selector.selected_tile_position)
 
     if player_enabled:
+        if Input.is_action_just_pressed("next_item"):
+            item_selector.next_item()
+        if Input.is_action_just_pressed("previous_item"):
+            item_selector.previous_item()
         if Input.is_action_just_pressed("interact"):
             var space_state = get_world_2d().direct_space_state
             # use global coordinates, not local to node
@@ -39,7 +44,7 @@ func _process(_delta):
                 var player_interaction_layer = 2
                 var tileset_id = 2
                 var place_tile_position = real_tilemap.local_to_map(get_interaction_point())
-                real_tilemap.set_cell(player_interaction_layer, place_tile_position, tileset_id, Vector2i(0,2))
+                real_tilemap.set_cell(player_interaction_layer, place_tile_position, tileset_id, item_selector.selected_tile_position)
 
             # This is just for debug
             if Input.is_action_pressed("interact") or Input.is_action_just_released("interact"):

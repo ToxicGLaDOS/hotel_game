@@ -403,6 +403,7 @@ theme_override_font_sizes/normal_font_size = 23
 text = "Hello goober. You're a goofball teehee"
 
 [node name="ItemSelector" type="MarginContainer" parent="CanvasLayer" node_paths=PackedStringArray("selector", "hbox")]
+visible = false
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 270.0

@@ -9,11 +9,13 @@ class_name Player
 @export var camera: Camera2D
 @export var item_selector: ItemSelector
 enum directions {UP, RIGHT, DOWN, LEFT}
+enum modes {DEFAULT, PLACING}
 
 var facing = directions.UP
 var player_enabled = true
 var transparent_layer = 0
 var tileset_source_id = 0
+var input_mode = modes.DEFAULT
 
 
 func _draw():
@@ -24,15 +26,24 @@ func _draw():
 func _process(_delta):
     preview_tilemap.clear_layer(transparent_layer)
 
-    # Create the preview of the placement
-    if can_place():
-        preview_tilemap.set_cell(transparent_layer, preview_tilemap.local_to_map(get_interaction_point()), tileset_source_id, item_selector.selected_tile_position)
-
     if player_enabled:
-        if Input.is_action_just_pressed("next_item"):
-            item_selector.next_item()
-        if Input.is_action_just_pressed("previous_item"):
-            item_selector.previous_item()
+        if input_mode == modes.PLACING:
+            # Create the preview of the placement
+            if can_place():
+                preview_tilemap.set_cell(transparent_layer, preview_tilemap.local_to_map(get_interaction_point()), tileset_source_id, item_selector.selected_tile_position)
+            if Input.is_action_just_pressed("next_item"):
+                item_selector.next_item()
+            if Input.is_action_just_pressed("previous_item"):
+                item_selector.previous_item()
+
+        if Input.is_action_just_pressed("set_placing_mode"):
+            input_mode = modes.PLACING
+            item_selector.visible = true
+
+        if Input.is_action_just_pressed("set_default_mode"):
+            input_mode = modes.DEFAULT
+            item_selector.visible = false
+
         if Input.is_action_just_pressed("interact"):
             var space_state = get_world_2d().direct_space_state
             # use global coordinates, not local to node
@@ -40,7 +51,7 @@ func _process(_delta):
             var result = space_state.intersect_ray(query)
             if result and result.collider.has_method("interact"):
                 result.collider.interact()
-            elif can_place():
+            elif can_place() and input_mode == modes.PLACING:
                 var player_interaction_layer = 2
                 var tileset_id = 2
                 var place_tile_position = real_tilemap.local_to_map(get_interaction_point())

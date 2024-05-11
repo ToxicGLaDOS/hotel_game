@@ -4,8 +4,7 @@ class_name Player
 @export var SPEED: float
 @export var animation: AnimatedSprite2D
 @export var interact_distance: int
-@export var preview_tilemap: TileMap
-@export var real_tilemap: TileMap
+@export var tile_map_manager: TileMapManager
 @export var camera: Camera2D
 @export var item_selector: ItemSelector
 enum directions {UP, RIGHT, DOWN, LEFT}
@@ -13,10 +12,7 @@ enum modes {DEFAULT, PLACING}
 
 var facing = directions.UP
 var player_enabled = true
-var transparent_layer = 0
-var tileset_source_id = 0
 var input_mode = modes.DEFAULT
-
 
 func _draw():
     draw_line(Vector2(0,0), get_interaction_point() - position , Color.RED, 1.0)
@@ -24,13 +20,13 @@ func _draw():
         draw_line(Vector2(0,0), facing_as_vector() * interact_distance, Color.GREEN, 1.0)
 
 func _process(_delta):
-    preview_tilemap.clear_layer(transparent_layer)
-
+    var tile_interaction_point = tile_map_manager.base.local_to_map(get_interaction_point())
+    var selected_item = item_selector.selected_tile_position
     if player_enabled:
         if input_mode == modes.PLACING:
-            # Create the preview of the placement
-            if can_place():
-                preview_tilemap.set_cell(transparent_layer, preview_tilemap.local_to_map(get_interaction_point()), tileset_source_id, item_selector.selected_tile_position)
+            tile_map_manager.set_deletion_preview(tile_interaction_point)
+            tile_map_manager.set_placement_preview(tile_interaction_point, selected_item)
+
             if Input.is_action_just_pressed("next_item"):
                 item_selector.next_item()
             if Input.is_action_just_pressed("previous_item"):
@@ -51,11 +47,8 @@ func _process(_delta):
             var result = space_state.intersect_ray(query)
             if result and result.collider.has_method("interact"):
                 result.collider.interact()
-            elif can_place() and input_mode == modes.PLACING:
-                var player_interaction_layer = 2
-                var tileset_id = 2
-                var place_tile_position = real_tilemap.local_to_map(get_interaction_point())
-                real_tilemap.set_cell(player_interaction_layer, place_tile_position, tileset_id, item_selector.selected_tile_position)
+            elif input_mode == modes.PLACING:
+                tile_map_manager.place_or_remove_tile(tile_interaction_point, selected_item)
 
             # This is just for debug
             if Input.is_action_pressed("interact") or Input.is_action_just_released("interact"):
@@ -94,11 +87,6 @@ func _physics_process(_delta):
 
         move_and_slide()
 
-func can_place():
-    var interaction_point = real_tilemap.local_to_map(get_interaction_point())
-    var real_tile_data = real_tilemap.get_cell_tile_data(1, interaction_point)
-    return real_tile_data == null
-
 func get_interaction_point():
     var player_size = find_child("CollisionShape2D").shape.size
     var collision_position = find_child("CollisionShape2D").global_position
@@ -133,7 +121,5 @@ func disable_player():
 # --- SIGNALS ---
 func _on_transition_trigger_area_entered(area: Area2D):
     if area is Stairs:
-        print(area)
-        print('warp to: ', area.transition_point.global_position)
         position = area.transition_point.global_position
         camera.position = area.camera_point.global_position

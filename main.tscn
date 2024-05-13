@@ -4,9 +4,8 @@
 [ext_resource type="Script" path="res://player.gd" id="1_im0n3"]
 [ext_resource type="PackedScene" uid="uid://bv6wavira5t7q" path="res://npc.tscn" id="1_j2uon"]
 [ext_resource type="PackedScene" uid="uid://b586bivk803dn" path="res://tile_maps.tscn" id="3_hsw77"]
-[ext_resource type="PackedScene" uid="uid://dib7ao0bk4044" path="res://stairs_down.tscn" id="4_4lrxs"]
 [ext_resource type="Texture2D" uid="uid://c1573yuhpdxjd" path="res://images/dialogue_popup.png" id="5_e6cjm"]
-[ext_resource type="PackedScene" uid="uid://c2jwbm061qoiq" path="res://stairs_up.tscn" id="5_jruj5"]
+[ext_resource type="PackedScene" uid="uid://dib7ao0bk4044" path="res://stairs.tscn" id="5_jruj5"]
 [ext_resource type="Texture2D" uid="uid://b12poelkjcx7h" path="res://images/ts_interiorDecorations.png" id="6_3dfvk"]
 [ext_resource type="Script" path="res://dialouge_box.gd" id="6_qdxx0"]
 [ext_resource type="Script" path="res://item_selector.gd" id="11_54dxh"]
@@ -17,6 +16,10 @@ polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Arr
 outlines = Array[PackedVector2Array]([PackedVector2Array(-104, -280, 840, -280, 840, 136, -104, 136)])
 source_geometry_group_name = &"navigation_polygon_source_group"
 agent_radius = 11.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jxg44"]
+atlas = ExtResource("6_3dfvk")
+region = Rect2(48, 64, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_82bhj"]
 atlas = ExtResource("1_audty")
@@ -120,10 +123,9 @@ region = Rect2(64, 32, 16, 16)
 
 [node name="Root" type="Node2D"]
 
-[node name="CharacterBody2D2" parent="." node_paths=PackedStringArray("dialouge_box", "target") instance=ExtResource("1_j2uon")]
+[node name="CharacterBody2D2" parent="." node_paths=PackedStringArray("dialouge_box") instance=ExtResource("1_j2uon")]
 position = Vector2(72, -72)
 dialouge_box = NodePath("../CanvasLayer/DialougeBox")
-target = NodePath("")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(24, -24)
@@ -134,7 +136,7 @@ navigation_polygon = SubResource("NavigationPolygon_msyrg")
 
 [node name="TileMapManager" parent="NavigationRegion2D" instance=ExtResource("3_hsw77")]
 
-[node name="EntryToBasementStairs" parent="NavigationRegion2D/TileMapManager" node_paths=PackedStringArray("linked_stairs") instance=ExtResource("4_4lrxs")]
+[node name="EntryToBasementStairs" parent="NavigationRegion2D/TileMapManager" node_paths=PackedStringArray("linked_stairs") instance=ExtResource("5_jruj5")]
 position = Vector2(88, 24)
 linked_stairs = NodePath("../BasementToEntryStairs")
 
@@ -147,6 +149,9 @@ position = Vector2(-64, -48)
 [node name="BasementToEntryStairs" parent="NavigationRegion2D/TileMapManager" node_paths=PackedStringArray("linked_stairs") instance=ExtResource("5_jruj5")]
 position = Vector2(456, 8)
 linked_stairs = NodePath("../EntryToBasementStairs")
+
+[node name="Stairs" parent="NavigationRegion2D/TileMapManager/BasementToEntryStairs" index="0"]
+texture = SubResource("AtlasTexture_jxg44")
 
 [node name="WarpPoint" parent="NavigationRegion2D/TileMapManager/BasementToEntryStairs" index="2"]
 position = Vector2(16, 0)

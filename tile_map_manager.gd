@@ -5,8 +5,11 @@ class_name TileMapManager
 @export var preview: TileMap
 
 # Base TileMap layers
-var floor_layer = 0
-var object_layer = 1
+# object_layer must be 0 because
+# only the 0th layer is tracked for
+# baking navigation
+var object_layer = 0
+var floor_layer = 1
 var player_controlled_layer = 2
 var transparent_layer = 3
 # Preview layers

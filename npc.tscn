@@ -1,0 +1,117 @@
+[gd_scene load_steps=14 format=3 uid="uid://bv6wavira5t7q"]
+
+[ext_resource type="Script" path="res://npc.gd" id="1_mytel"]
+[ext_resource type="Texture2D" uid="uid://f45jrlxjpuu4" path="res://images/char_04.png" id="2_ivapn"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m6fue"]
+atlas = ExtResource("2_ivapn")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ewtpl"]
+atlas = ExtResource("2_ivapn")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hrft2"]
+atlas = ExtResource("2_ivapn")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o11qs"]
+atlas = ExtResource("2_ivapn")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_58kh7"]
+atlas = ExtResource("2_ivapn")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w1xn5"]
+atlas = ExtResource("2_ivapn")
+region = Rect2(16, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_516i2"]
+atlas = ExtResource("2_ivapn")
+region = Rect2(0, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gt4ek"]
+atlas = ExtResource("2_ivapn")
+region = Rect2(16, 48, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8fey0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m6fue")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ewtpl")
+}],
+"loop": true,
+"name": &"walking_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hrft2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o11qs")
+}],
+"loop": true,
+"name": &"walking_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_58kh7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w1xn5")
+}],
+"loop": true,
+"name": &"walking_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_516i2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gt4ek")
+}],
+"loop": true,
+"name": &"walking_up",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7i2ed"]
+size = Vector2(14, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_slsn5"]
+size = Vector2(14, 16)
+
+[node name="CharacterBody2D2" type="CharacterBody2D" node_paths=PackedStringArray("nav_agent")]
+motion_mode = 1
+script = ExtResource("1_mytel")
+interact_text = Array[String](["Hey guy!", "I'm the desk clerk!", "This is a third message :)"])
+nav_agent = NodePath("NavigationAgent2D")
+speed = 100.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_8fey0")
+animation = &"walking_down"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_7i2ed")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 2.0
+target_desired_distance = 2.0
+debug_enabled = true
+
+[node name="TriggerArea" type="Area2D" parent="."]
+collision_mask = 2
+
+[node name="TriggerShape" type="CollisionShape2D" parent="TriggerArea"]
+shape = SubResource("RectangleShape2D_slsn5")
+
+[connection signal="area_entered" from="TriggerArea" to="." method="_on_transition_trigger_area_entered"]

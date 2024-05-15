@@ -3,13 +3,11 @@ class_name TileMapManager
 
 @export var base: TileMap
 @export var preview: TileMap
+@export var navigation: Navigation
 
 # Base TileMap layers
-# object_layer must be 0 because
-# only the 0th layer is tracked for
-# baking navigation
-var object_layer = 0
-var floor_layer = 1
+var floor_layer = 0
+var object_layer = 1
 var player_controlled_layer = 2
 var transparent_layer = 3
 # Preview layers
@@ -17,6 +15,9 @@ var preview_layer = 0
 
 var base_object_tileset_id = 2
 var preview_object_tileset_id = 0
+
+func _ready():
+    navigation.bake_tile_map(base)
 
 func set_deletion_preview(tile_position: Vector2i) -> void:
     var tile_atlas_coords: Vector2i
@@ -49,12 +50,14 @@ func place_or_remove_tile(tile_position: Vector2i, atlas_position: Vector2i) -> 
 
 func place_tile(tile_position: Vector2i, atlas_position: Vector2i) -> void:
     base.set_cell(player_controlled_layer, tile_position, base_object_tileset_id, atlas_position)
+    navigation.bake_tile_map(base)
 
 func remove_tile(tile_position: Vector2i) -> void:
     # This looks weird cause we're deleting off the transparent_layer
     # rather than the player_controlled_layer, but the deletion preview
     # puts stuff onto the transparent_layer
     base.erase_cell(transparent_layer, tile_position)
+    navigation.bake_tile_map(base)
 
 func can_remove(tile_position: Vector2i) -> bool:
     return base.get_cell_tile_data(transparent_layer, tile_position) != null

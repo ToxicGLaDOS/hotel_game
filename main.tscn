@@ -1,8 +1,9 @@
-[gd_scene load_steps=27 format=3 uid="uid://c85upihop1f2h"]
+[gd_scene load_steps=28 format=3 uid="uid://c85upihop1f2h"]
 
 [ext_resource type="Texture2D" uid="uid://6w00xex8cejs" path="res://images/char_01.png" id="1_audty"]
 [ext_resource type="Script" path="res://player.gd" id="1_im0n3"]
 [ext_resource type="PackedScene" uid="uid://bv6wavira5t7q" path="res://npc.tscn" id="1_j2uon"]
+[ext_resource type="Script" path="res://navigation.gd" id="2_v1axc"]
 [ext_resource type="PackedScene" uid="uid://b586bivk803dn" path="res://tile_maps.tscn" id="3_hsw77"]
 [ext_resource type="Texture2D" uid="uid://c1573yuhpdxjd" path="res://images/dialogue_popup.png" id="5_e6cjm"]
 [ext_resource type="PackedScene" uid="uid://dib7ao0bk4044" path="res://stairs.tscn" id="5_jruj5"]
@@ -10,16 +11,16 @@
 [ext_resource type="Script" path="res://dialouge_box.gd" id="6_qdxx0"]
 [ext_resource type="Script" path="res://item_selector.gd" id="11_54dxh"]
 
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_msyrg"]
-vertices = PackedVector2Array(693, 28, 459, 28, 459, -181, 693, -181, 731, 75, 829, 125, -93, 125, 421, 75, 123, 75, 37, 75, 829, -269, 731, -228, -93, -269, 421, -228, 123, -132, -75, -132, -75, 75, 27, 28, -37, 28, -37, -69, 5, -37, -5, -85, 85, -85, 85, -75, 5, -75, -5, -69, 85, -37, 85, 28, 37, 28, 27, 75)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 6, 7), PackedInt32Array(8, 7, 6), PackedInt32Array(9, 8, 6), PackedInt32Array(10, 5, 4, 11), PackedInt32Array(12, 10, 11, 13), PackedInt32Array(13, 7, 8, 14), PackedInt32Array(12, 13, 14, 15), PackedInt32Array(6, 12, 15, 16), PackedInt32Array(17, 18, 19, 20), PackedInt32Array(21, 22, 23, 24), PackedInt32Array(25, 21, 24, 20), PackedInt32Array(20, 26, 27, 28), PackedInt32Array(19, 25, 20), PackedInt32Array(17, 20, 28), PackedInt32Array(29, 17, 28, 9), PackedInt32Array(29, 9, 6), PackedInt32Array(6, 16, 29)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-104, -280, 840, -280, 840, 136, -104, 136)])
-source_geometry_group_name = &"navigation_polygon_source_group"
-agent_radius = 11.0
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_jxg44"]
 atlas = ExtResource("6_3dfvk")
 region = Rect2(48, 64, 16, 16)
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_msyrg"]
+outlines = Array[PackedVector2Array]([PackedVector2Array(808, -264, -232, -264, -232, 136, 808, 136)])
+parsed_geometry_type = 1
+source_geometry_mode = 1
+source_geometry_group_name = &"navigation"
+agent_radius = 11.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_82bhj"]
 atlas = ExtResource("1_audty")
@@ -123,44 +124,46 @@ region = Rect2(64, 32, 16, 16)
 
 [node name="Root" type="Node2D"]
 
-[node name="CharacterBody2D2" parent="." node_paths=PackedStringArray("dialouge_box") instance=ExtResource("1_j2uon")]
-position = Vector2(72, -72)
-dialouge_box = NodePath("../CanvasLayer/DialougeBox")
+[node name="TileMapManager" parent="." node_paths=PackedStringArray("navigation") instance=ExtResource("3_hsw77")]
+navigation = NodePath("../NavigationRegion2D")
+
+[node name="EntryToBasementStairs" parent="TileMapManager" node_paths=PackedStringArray("linked_stairs") instance=ExtResource("5_jruj5")]
+position = Vector2(88, 24)
+linked_stairs = NodePath("../BasementToEntryStairs")
+
+[node name="WarpPoint" parent="TileMapManager/EntryToBasementStairs" index="2"]
+position = Vector2(-16, 0)
+
+[node name="CameraPoint" parent="TileMapManager/EntryToBasementStairs" index="4"]
+position = Vector2(-64, -48)
+
+[node name="BasementToEntryStairs" parent="TileMapManager" node_paths=PackedStringArray("linked_stairs") instance=ExtResource("5_jruj5")]
+position = Vector2(456, 8)
+linked_stairs = NodePath("../EntryToBasementStairs")
+
+[node name="Stairs" parent="TileMapManager/BasementToEntryStairs" index="0"]
+texture = SubResource("AtlasTexture_jxg44")
+
+[node name="WarpPoint" parent="TileMapManager/BasementToEntryStairs" index="2"]
+position = Vector2(16, 0)
+
+[node name="NavigationLink2D" parent="TileMapManager/BasementToEntryStairs" index="3"]
+travel_cost = 1.0
+
+[node name="CameraPoint" parent="TileMapManager/BasementToEntryStairs" index="4"]
+position = Vector2(128, -96)
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_msyrg")
+script = ExtResource("2_v1axc")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(24, -24)
 zoom = Vector2(2, 2)
 
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
-navigation_polygon = SubResource("NavigationPolygon_msyrg")
-
-[node name="TileMapManager" parent="NavigationRegion2D" instance=ExtResource("3_hsw77")]
-
-[node name="EntryToBasementStairs" parent="NavigationRegion2D/TileMapManager" node_paths=PackedStringArray("linked_stairs") instance=ExtResource("5_jruj5")]
-position = Vector2(88, 24)
-linked_stairs = NodePath("../BasementToEntryStairs")
-
-[node name="WarpPoint" parent="NavigationRegion2D/TileMapManager/EntryToBasementStairs" index="2"]
-position = Vector2(-16, 0)
-
-[node name="CameraPoint" parent="NavigationRegion2D/TileMapManager/EntryToBasementStairs" index="4"]
-position = Vector2(-64, -48)
-
-[node name="BasementToEntryStairs" parent="NavigationRegion2D/TileMapManager" node_paths=PackedStringArray("linked_stairs") instance=ExtResource("5_jruj5")]
-position = Vector2(456, 8)
-linked_stairs = NodePath("../EntryToBasementStairs")
-
-[node name="Stairs" parent="NavigationRegion2D/TileMapManager/BasementToEntryStairs" index="0"]
-texture = SubResource("AtlasTexture_jxg44")
-
-[node name="WarpPoint" parent="NavigationRegion2D/TileMapManager/BasementToEntryStairs" index="2"]
-position = Vector2(16, 0)
-
-[node name="NavigationLink2D" parent="NavigationRegion2D/TileMapManager/BasementToEntryStairs" index="3"]
-travel_cost = 1.0
-
-[node name="CameraPoint" parent="NavigationRegion2D/TileMapManager/BasementToEntryStairs" index="4"]
-position = Vector2(128, -96)
+[node name="CharacterBody2D2" parent="." node_paths=PackedStringArray("dialouge_box") instance=ExtResource("1_j2uon")]
+position = Vector2(72, -72)
+dialouge_box = NodePath("../CanvasLayer/DialougeBox")
 
 [node name="PlayerBody2D" type="CharacterBody2D" parent="." node_paths=PackedStringArray("animation", "tile_map_manager", "camera", "item_selector")]
 position = Vector2(-24, 8)
@@ -169,7 +172,7 @@ script = ExtResource("1_im0n3")
 SPEED = 100.0
 animation = NodePath("AnimatedSprite2D")
 interact_distance = 16
-tile_map_manager = NodePath("../NavigationRegion2D/TileMapManager")
+tile_map_manager = NodePath("../TileMapManager")
 camera = NodePath("../Camera2D")
 item_selector = NodePath("../CanvasLayer/ItemSelector")
 
@@ -285,8 +288,9 @@ offset_top = 75.0
 offset_right = 120.5
 offset_bottom = 163.0
 
+[connection signal="bake_finished" from="NavigationRegion2D" to="TileMapManager" method="_post_baking"]
 [connection signal="area_entered" from="PlayerBody2D/TransitionTrigger" to="PlayerBody2D" method="_on_transition_trigger_area_entered"]
 
+[editable path="TileMapManager/EntryToBasementStairs"]
+[editable path="TileMapManager/BasementToEntryStairs"]
 [editable path="CharacterBody2D2"]
-[editable path="NavigationRegion2D/TileMapManager/EntryToBasementStairs"]
-[editable path="NavigationRegion2D/TileMapManager/BasementToEntryStairs"]

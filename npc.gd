@@ -3,7 +3,6 @@ extends CharacterBody2D
 @export var dialouge_box: DialougeBox
 @export var interact_text: Array[String]
 @export var nav_agent: NavigationAgent2D
-@export var target: Node2D
 @export var speed: float
 
 func interact():
@@ -17,6 +16,7 @@ func _ready():
     call_deferred("set_target")
 
 func set_target():
+    await get_tree().create_timer(1).timeout
     nav_agent.set_target_position(Vector2(552, -88))
 
 func _physics_process(_delta):

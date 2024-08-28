@@ -6,6 +6,7 @@ class_name DialougeBox
 
 var text_series: Array[String]
 var current_text = 0
+var on_close = Callable()
 
 # This is to ensure that we don't open and close the dialouge
 # in the same frame
@@ -26,11 +27,18 @@ func _process(_delta):
 func close():
     visible = false
     player.enable_player()
+    # Empty Callables (like the default value) crash
+    # when called, so this check is mandatory
+    if on_close.is_valid():
+        on_close.call()
+    on_close = Callable()
 
-func open():
+# This defaults to an empty Callable
+func open(_on_close = Callable()):
     visible = true
     just_opened = true
     player.disable_player()
+    on_close = _on_close
 
 func set_text_series(series: Array[String]):
     current_text = 0

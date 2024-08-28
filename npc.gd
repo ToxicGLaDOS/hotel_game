@@ -4,10 +4,15 @@ extends CharacterBody2D
 @export var interact_text: Array[String]
 @export var nav_agent: NavigationAgent2D
 @export var speed: float
+var interacting = false
 
 func interact():
-    dialouge_box.open()
+    dialouge_box.open(end_interaction)
     dialouge_box.set_text_series(interact_text)
+    interacting = true
+
+func end_interaction():
+    interacting = false
 
 func _ready():
     # call_deferred ensures that we wait until the
@@ -20,13 +25,14 @@ func set_target():
     nav_agent.set_target_position(Vector2(552, -88))
 
 func _physics_process(_delta):
-    if nav_agent.is_navigation_finished():
-        return
+    if not interacting:
+        if nav_agent.is_navigation_finished():
+            return
 
-    var next_path_position: Vector2 = nav_agent.get_next_path_position()
-    var new_velocity: Vector2 = global_position.direction_to(next_path_position) * speed
-    velocity = new_velocity
-    move_and_slide()
+        var next_path_position: Vector2 = nav_agent.get_next_path_position()
+        var new_velocity: Vector2 = global_position.direction_to(next_path_position) * speed
+        velocity = new_velocity
+        move_and_slide()
 
 # --- SIGNALS ---
 func _on_transition_trigger_area_entered(area: Area2D):

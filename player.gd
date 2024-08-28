@@ -39,6 +39,7 @@ func _process(_delta):
         if Input.is_action_just_pressed("set_default_mode"):
             input_mode = modes.DEFAULT
             item_selector.visible = false
+            tile_map_manager.clear_preview_layer()
 
         if Input.is_action_just_pressed("interact"):
             var space_state = get_world_2d().direct_space_state

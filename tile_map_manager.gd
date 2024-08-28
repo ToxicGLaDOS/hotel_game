@@ -36,11 +36,13 @@ func set_deletion_preview(tile_position: Vector2i) -> void:
     base.set_cell(transparent_layer, tile_position, base_object_tileset_id, tile_atlas_coords)
 
 func set_placement_preview(tile_position: Vector2i, atlas_position: Vector2i) -> void:
-    for used_cell in preview.get_used_cells(preview_layer):
-        preview.erase_cell(preview_layer, used_cell)
-
+    clear_preview_layer()
     if can_place(tile_position):
         preview.set_cell(preview_layer, tile_position, preview_object_tileset_id, atlas_position)
+
+func clear_preview_layer():
+    for used_cell in preview.get_used_cells(preview_layer):
+        preview.erase_cell(preview_layer, used_cell)
 
 func place_or_remove_tile(tile_position: Vector2i, atlas_position: Vector2i) -> void:
     if can_remove(tile_position):

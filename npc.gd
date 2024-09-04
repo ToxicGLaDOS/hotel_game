@@ -4,6 +4,7 @@ extends CharacterBody2D
 @export var interact_text: Array[String]
 @export var nav_agent: NavigationAgent2D
 @export var speed: float
+@export var destination: Node2D
 var interacting = false
 
 func interact(player: Player):
@@ -22,7 +23,7 @@ func _ready():
 
 func set_target():
     await get_tree().create_timer(1).timeout
-    nav_agent.set_target_position(Vector2(552, -88))
+    nav_agent.set_target_position(destination.global_position)
 
 func _physics_process(_delta):
     if not interacting:
@@ -36,5 +37,5 @@ func _physics_process(_delta):
 
 # --- SIGNALS ---
 func _on_transition_trigger_area_entered(area: Area2D):
-    if area is RoomLink and area.link_type == RoomLink.LinkType.STAIR:
+    if area is RoomLink:
         position = area.transition_point.global_position

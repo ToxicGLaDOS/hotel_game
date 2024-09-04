@@ -17,7 +17,7 @@ atlas = ExtResource("6_3dfvk")
 region = Rect2(48, 64, 16, 16)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_msyrg"]
-outlines = Array[PackedVector2Array]([PackedVector2Array(808, -264, -232, -264, -232, 136, 808, 136)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(808, -264, -776, -280, -808, 224, 808, 136)])
 parsed_geometry_type = 1
 source_geometry_mode = 1
 source_geometry_group_name = &"navigation"
@@ -182,17 +182,18 @@ script = ExtResource("2_v1axc")
 position = Vector2(24, -24)
 zoom = Vector2(2, 2)
 
-[node name="CharacterBody2D2" parent="." node_paths=PackedStringArray("dialouge_box") instance=ExtResource("1_j2uon")]
+[node name="CharacterBody2D2" parent="." node_paths=PackedStringArray("dialouge_box", "destination") instance=ExtResource("1_j2uon")]
 position = Vector2(72, -72)
 dialouge_box = NodePath("../CanvasLayer/DialougeBox")
+destination = NodePath("../NpcDestination")
 
 [node name="PlayerBody2D" type="CharacterBody2D" parent="." node_paths=PackedStringArray("animation", "tile_map_manager", "camera", "item_selector")]
 position = Vector2(-24, 8)
 motion_mode = 1
 script = ExtResource("1_im0n3")
 SPEED = 100.0
-interact_distance = 16
 animation = NodePath("AnimatedSprite2D")
+interact_distance = 16
 tile_map_manager = NodePath("../TileMapManager")
 camera = NodePath("../Camera2D")
 item_selector = NodePath("../CanvasLayer/ItemSelector")
@@ -308,6 +309,9 @@ offset_left = 21.5
 offset_top = 75.0
 offset_right = 120.5
 offset_bottom = 163.0
+
+[node name="NpcDestination" type="Node2D" parent="."]
+position = Vector2(-616, -72)
 
 [connection signal="bake_finished" from="NavigationRegion2D" to="TileMapManager" method="_post_baking"]
 [connection signal="area_entered" from="PlayerBody2D/TransitionTrigger" to="PlayerBody2D" method="_on_transition_trigger_area_entered"]

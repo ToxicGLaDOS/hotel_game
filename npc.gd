@@ -6,7 +6,7 @@ extends CharacterBody2D
 @export var speed: float
 var interacting = false
 
-func interact():
+func interact(player: Player):
     dialouge_box.open(end_interaction)
     dialouge_box.set_text_series(interact_text)
     interacting = true
@@ -36,5 +36,5 @@ func _physics_process(_delta):
 
 # --- SIGNALS ---
 func _on_transition_trigger_area_entered(area: Area2D):
-    if area is Stairs:
+    if area is RoomLink and area.link_type == RoomLink.LinkType.STAIR:
         position = area.transition_point.global_position

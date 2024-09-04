@@ -42,12 +42,16 @@ func _process(_delta):
             tile_map_manager.clear_preview_layer()
 
         if Input.is_action_just_pressed("interact"):
+            # TODO: This raycast seems to be error prone, need to move to _physics_process()
+            # https://docs.godotengine.org/en/4.0/tutorials/physics/ray-casting.html#accessing-space
+            # TODO: Convert this to a RayCast2D node instead
             var space_state = get_world_2d().direct_space_state
             # use global coordinates, not local to node
             var query = PhysicsRayQueryParameters2D.create(position, position + facing_as_vector() * interact_distance)
+            query.collide_with_areas = true
             var result = space_state.intersect_ray(query)
             if result and result.collider.has_method("interact"):
-                result.collider.interact()
+                result.collider.interact(self)
             elif input_mode == modes.PLACING:
                 tile_map_manager.place_or_remove_tile(tile_interaction_point, selected_item)
 
@@ -88,6 +92,7 @@ func _physics_process(_delta):
 
         move_and_slide()
 
+
 func get_interaction_point():
     var player_size = find_child("CollisionShape2D").shape.size
     var collision_position = find_child("CollisionShape2D").global_position
@@ -118,9 +123,11 @@ func enable_player():
 func disable_player():
     player_enabled = false
 
+func move_rooms(new_position, new_camera_position):
+    position = new_position
+    camera.position = new_camera_position
 
 # --- SIGNALS ---
 func _on_transition_trigger_area_entered(area: Area2D):
-    if area is Stairs:
-        position = area.transition_point.global_position
-        camera.position = area.camera_point.global_position
+    if area is RoomLink and area.link_type == RoomLink.LinkType.STAIR:
+        move_rooms(area.transition_point.global_position, area.camera_point.global_position)

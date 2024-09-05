@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://c85upihop1f2h"]
+[gd_scene load_steps=30 format=3 uid="uid://c85upihop1f2h"]
 
 [ext_resource type="Texture2D" uid="uid://6w00xex8cejs" path="res://images/char_01.png" id="1_audty"]
 [ext_resource type="Script" path="res://player.gd" id="1_im0n3"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://b12poelkjcx7h" path="res://images/ts_interiorDecorations.png" id="6_3dfvk"]
 [ext_resource type="Script" path="res://dialouge_box.gd" id="6_qdxx0"]
 [ext_resource type="Script" path="res://item_selector.gd" id="11_54dxh"]
+[ext_resource type="PackedScene" uid="uid://g5t55nsq2pie" path="res://bed.tscn" id="12_gymva"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jxg44"]
 atlas = ExtResource("6_3dfvk")
@@ -188,6 +189,7 @@ dialouge_box = NodePath("../CanvasLayer/DialougeBox")
 destination = NodePath("../NpcDestination")
 
 [node name="PlayerBody2D" type="CharacterBody2D" parent="." node_paths=PackedStringArray("animation", "tile_map_manager", "camera", "item_selector")]
+z_index = 1
 position = Vector2(-24, 8)
 motion_mode = 1
 script = ExtResource("1_im0n3")
@@ -312,6 +314,9 @@ offset_bottom = 163.0
 
 [node name="NpcDestination" type="Node2D" parent="."]
 position = Vector2(-616, -72)
+
+[node name="Bed" parent="." instance=ExtResource("12_gymva")]
+position = Vector2(-664, -88)
 
 [connection signal="bake_finished" from="NavigationRegion2D" to="TileMapManager" method="_post_baking"]
 [connection signal="area_entered" from="PlayerBody2D/TransitionTrigger" to="PlayerBody2D" method="_on_transition_trigger_area_entered"]

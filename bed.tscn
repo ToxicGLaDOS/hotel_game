@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://g5t55nsq2pie"]
+
+[ext_resource type="Texture2D" uid="uid://b12poelkjcx7h" path="res://images/ts_interiorDecorations.png" id="1_5wy5a"]
+[ext_resource type="Script" path="res://bed.gd" id="1_r2258"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fgrgo"]
+atlas = ExtResource("1_5wy5a")
+region = Rect2(48, 128, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oanoe"]
+atlas = ExtResource("1_5wy5a")
+region = Rect2(16, 128, 16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_agrrw"]
+size = Vector2(16, 16)
+
+[node name="Bed" type="StaticBody2D"]
+script = ExtResource("1_r2258")
+
+[node name="Clean" type="Sprite2D" parent="."]
+visible = false
+texture = SubResource("AtlasTexture_fgrgo")
+
+[node name="Messy" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_oanoe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_agrrw")

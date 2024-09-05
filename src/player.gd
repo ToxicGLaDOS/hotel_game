@@ -3,7 +3,7 @@ class_name Player
 
 @export var SPEED: float
 @export var animation: AnimatedSprite2D
-@export var interact_distance: int
+@export var raycast: RayCast2D
 @export var tile_map_manager: TileMapManager
 @export var camera: Camera2D
 @export var item_selector: ItemSelector
@@ -13,6 +13,10 @@ enum modes {DEFAULT, PLACING}
 var facing = directions.UP
 var player_enabled = true
 var input_mode = modes.DEFAULT
+var interact_distance: float
+
+func _ready():
+    interact_distance = (raycast.target_position - raycast.position).length()
 
 func _draw():
     draw_line(Vector2(0,0), get_interaction_point() - position , Color.RED, 1.0)
@@ -42,16 +46,11 @@ func _process(_delta):
             tile_map_manager.clear_preview_layer()
 
         if Input.is_action_just_pressed("interact"):
-            # TODO: This raycast seems to be error prone, need to move to _physics_process()
-            # https://docs.godotengine.org/en/4.0/tutorials/physics/ray-casting.html#accessing-space
-            # TODO: Convert this to a RayCast2D node instead
-            var space_state = get_world_2d().direct_space_state
-            # use global coordinates, not local to node
-            var query = PhysicsRayQueryParameters2D.create(position, position + facing_as_vector() * interact_distance)
-            query.collide_with_areas = true
-            var result = space_state.intersect_ray(query)
-            if result and result.collider.has_method("interact"):
-                result.collider.interact(self)
+            # It's not clear to me if get_collider is supposed to
+            # be called from _physics_process, but I don't think so
+            var collider = raycast.get_collider()
+            if collider and collider.has_method("interact"):
+                collider.interact(self)
             elif input_mode == modes.PLACING:
                 tile_map_manager.place_or_remove_tile(tile_interaction_point, selected_item)
 
@@ -68,9 +67,9 @@ func _physics_process(_delta):
             velocity.y = move_toward(velocity.y, 0, SPEED)
 
         # Get the input direction and handle the movement/deceleration.
-        var direction = Input.get_axis("move_left", "move_right")
-        if direction:
-            velocity.x = direction * SPEED
+        var horizontal = Input.get_axis("move_left", "move_right")
+        if horizontal:
+            velocity.x = horizontal * SPEED
         else:
             velocity.x = move_toward(velocity.x, 0, SPEED)
 
@@ -89,6 +88,8 @@ func _physics_process(_delta):
             elif velocity.y < 0:
                 facing = directions.UP
                 animation.animation = "walking_up"
+
+        raycast.target_position = facing_as_vector() * interact_distance
 
         move_and_slide()
 

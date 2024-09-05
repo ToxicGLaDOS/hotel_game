@@ -188,14 +188,14 @@ position = Vector2(72, -72)
 dialouge_box = NodePath("../CanvasLayer/DialougeBox")
 destination = NodePath("../NpcDestination")
 
-[node name="PlayerBody2D" type="CharacterBody2D" parent="." node_paths=PackedStringArray("animation", "tile_map_manager", "camera", "item_selector")]
+[node name="PlayerBody2D" type="CharacterBody2D" parent="." node_paths=PackedStringArray("animation", "raycast", "tile_map_manager", "camera", "item_selector")]
 z_index = 1
 position = Vector2(-24, 8)
 motion_mode = 1
 script = ExtResource("7_6lngv")
 SPEED = 100.0
 animation = NodePath("AnimatedSprite2D")
-interact_distance = 16
+raycast = NodePath("RayCast2D")
 tile_map_manager = NodePath("../TileMapManager")
 camera = NodePath("../Camera2D")
 item_selector = NodePath("../CanvasLayer/ItemSelector")
@@ -214,6 +214,11 @@ shape = SubResource("RectangleShape2D_63j7x")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerBody2D"]
 position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_qwxx6")
+
+[node name="RayCast2D" type="RayCast2D" parent="PlayerBody2D"]
+target_position = Vector2(0, -16)
+collision_mask = 3
+collide_with_areas = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

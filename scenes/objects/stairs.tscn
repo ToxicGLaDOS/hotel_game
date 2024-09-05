@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://dib7ao0bk4044"]
 
-[ext_resource type="Script" path="res://room_link.gd" id="1_02kxb"]
+[ext_resource type="Script" path="res://src/objects/room_link.gd" id="1_d6kgt"]
 [ext_resource type="Texture2D" uid="uid://b12poelkjcx7h" path="res://images/ts_interiorDecorations.png" id="2_jkb1q"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m0vfm"]
@@ -14,7 +14,7 @@ size = Vector2(16, 16)
 collision_layer = 2
 collision_mask = 0
 monitoring = false
-script = ExtResource("1_02kxb")
+script = ExtResource("1_d6kgt")
 navigation_link = NodePath("NavigationLink2D")
 
 [node name="Stairs" type="Sprite2D" parent="."]

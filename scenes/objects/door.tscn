@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://dqsicmgoiw7g7"]
 
-[ext_resource type="Script" path="res://door.gd" id="1_jh6ov"]
+[ext_resource type="Script" path="res://src/objects/door.gd" id="1_2m1rj"]
 [ext_resource type="Texture2D" uid="uid://b12poelkjcx7h" path="res://images/ts_interiorDecorations.png" id="2_hvicq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m0vfm"]
@@ -14,7 +14,7 @@ size = Vector2(18, 20)
 collision_layer = 2
 collision_mask = 0
 monitoring = false
-script = ExtResource("1_jh6ov")
+script = ExtResource("1_2m1rj")
 navigation_link = NodePath("NavigationLink2D")
 link_type = 1
 

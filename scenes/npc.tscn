@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=3 uid="uid://bv6wavira5t7q"]
 
-[ext_resource type="Script" path="res://npc.gd" id="1_mytel"]
+[ext_resource type="Script" path="res://src/npc.gd" id="1_mytel"]
 [ext_resource type="Texture2D" uid="uid://f45jrlxjpuu4" path="res://images/char_04.png" id="2_ivapn"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m6fue"]

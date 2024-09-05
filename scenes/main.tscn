@@ -1,20 +1,20 @@
 [gd_scene load_steps=30 format=3 uid="uid://c85upihop1f2h"]
 
-[ext_resource type="Texture2D" uid="uid://6w00xex8cejs" path="res://images/char_01.png" id="1_audty"]
-[ext_resource type="Script" path="res://player.gd" id="1_im0n3"]
-[ext_resource type="PackedScene" uid="uid://bv6wavira5t7q" path="res://npc.tscn" id="1_j2uon"]
-[ext_resource type="Script" path="res://navigation.gd" id="2_v1axc"]
-[ext_resource type="PackedScene" uid="uid://b586bivk803dn" path="res://tile_maps.tscn" id="3_hsw77"]
-[ext_resource type="PackedScene" uid="uid://dqsicmgoiw7g7" path="res://door.tscn" id="4_x8p1u"]
-[ext_resource type="Texture2D" uid="uid://c1573yuhpdxjd" path="res://images/dialogue_popup.png" id="5_e6cjm"]
-[ext_resource type="PackedScene" uid="uid://dib7ao0bk4044" path="res://stairs.tscn" id="5_jruj5"]
-[ext_resource type="Texture2D" uid="uid://b12poelkjcx7h" path="res://images/ts_interiorDecorations.png" id="6_3dfvk"]
-[ext_resource type="Script" path="res://dialouge_box.gd" id="6_qdxx0"]
-[ext_resource type="Script" path="res://item_selector.gd" id="11_54dxh"]
-[ext_resource type="PackedScene" uid="uid://g5t55nsq2pie" path="res://bed.tscn" id="12_gymva"]
+[ext_resource type="PackedScene" uid="uid://b586bivk803dn" path="res://scenes/tile_maps.tscn" id="1_wvx64"]
+[ext_resource type="PackedScene" uid="uid://dib7ao0bk4044" path="res://scenes/objects/stairs.tscn" id="2_rhamc"]
+[ext_resource type="Texture2D" uid="uid://b12poelkjcx7h" path="res://images/ts_interiorDecorations.png" id="3_037ej"]
+[ext_resource type="PackedScene" uid="uid://dqsicmgoiw7g7" path="res://scenes/objects/door.tscn" id="4_81x4m"]
+[ext_resource type="Script" path="res://src/navigation.gd" id="5_pbgfy"]
+[ext_resource type="PackedScene" uid="uid://bv6wavira5t7q" path="res://scenes/npc.tscn" id="6_j1vmi"]
+[ext_resource type="Script" path="res://src/player.gd" id="7_6lngv"]
+[ext_resource type="Texture2D" uid="uid://6w00xex8cejs" path="res://images/char_01.png" id="8_7t0km"]
+[ext_resource type="Script" path="res://src/gui/dialouge_box.gd" id="9_xrtqy"]
+[ext_resource type="Texture2D" uid="uid://c1573yuhpdxjd" path="res://images/dialogue_popup.png" id="10_pc5g7"]
+[ext_resource type="Script" path="res://src/gui/item_selector.gd" id="11_rvxkf"]
+[ext_resource type="PackedScene" uid="uid://g5t55nsq2pie" path="res://scenes/objects/bed.tscn" id="12_k70wm"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jxg44"]
-atlas = ExtResource("6_3dfvk")
+atlas = ExtResource("3_037ej")
 region = Rect2(48, 64, 16, 16)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_msyrg"]
@@ -25,35 +25,35 @@ source_geometry_group_name = &"navigation"
 agent_radius = 11.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_82bhj"]
-atlas = ExtResource("1_audty")
+atlas = ExtResource("8_7t0km")
 region = Rect2(0, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_io45b"]
-atlas = ExtResource("1_audty")
+atlas = ExtResource("8_7t0km")
 region = Rect2(16, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_w8bf7"]
-atlas = ExtResource("1_audty")
+atlas = ExtResource("8_7t0km")
 region = Rect2(0, 16, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_h7tv0"]
-atlas = ExtResource("1_audty")
+atlas = ExtResource("8_7t0km")
 region = Rect2(16, 16, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jefb5"]
-atlas = ExtResource("1_audty")
+atlas = ExtResource("8_7t0km")
 region = Rect2(0, 32, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_w3tsf"]
-atlas = ExtResource("1_audty")
+atlas = ExtResource("8_7t0km")
 region = Rect2(16, 32, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xdgm4"]
-atlas = ExtResource("1_audty")
+atlas = ExtResource("8_7t0km")
 region = Rect2(0, 48, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_uq47c"]
-atlas = ExtResource("1_audty")
+atlas = ExtResource("8_7t0km")
 region = Rect2(16, 48, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ph582"]
@@ -110,26 +110,26 @@ size = Vector2(12, 16)
 size = Vector2(12, 8)
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_4n076"]
-diffuse_texture = ExtResource("5_e6cjm")
+diffuse_texture = ExtResource("10_pc5g7")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_67uy7"]
-atlas = ExtResource("6_3dfvk")
+atlas = ExtResource("3_037ej")
 region = Rect2(0, 32, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_06m3u"]
-atlas = ExtResource("6_3dfvk")
+atlas = ExtResource("3_037ej")
 region = Rect2(48, 32, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bt1xt"]
-atlas = ExtResource("6_3dfvk")
+atlas = ExtResource("3_037ej")
 region = Rect2(64, 32, 16, 16)
 
 [node name="Root" type="Node2D"]
 
-[node name="TileMapManager" parent="." node_paths=PackedStringArray("navigation") instance=ExtResource("3_hsw77")]
+[node name="TileMapManager" parent="." node_paths=PackedStringArray("navigation") instance=ExtResource("1_wvx64")]
 navigation = NodePath("../NavigationRegion2D")
 
-[node name="EntryToBasementStairs" parent="TileMapManager" node_paths=PackedStringArray("link") instance=ExtResource("5_jruj5")]
+[node name="EntryToBasementStairs" parent="TileMapManager" node_paths=PackedStringArray("link") instance=ExtResource("2_rhamc")]
 position = Vector2(88, 24)
 link = NodePath("../BasementToEntryStairs")
 
@@ -139,7 +139,7 @@ position = Vector2(-16, 0)
 [node name="CameraPoint" parent="TileMapManager/EntryToBasementStairs" index="4"]
 position = Vector2(-64, -48)
 
-[node name="BasementToEntryStairs" parent="TileMapManager" node_paths=PackedStringArray("link") instance=ExtResource("5_jruj5")]
+[node name="BasementToEntryStairs" parent="TileMapManager" node_paths=PackedStringArray("link") instance=ExtResource("2_rhamc")]
 position = Vector2(456, 8)
 link = NodePath("../EntryToBasementStairs")
 
@@ -155,7 +155,7 @@ travel_cost = 1.0
 [node name="CameraPoint" parent="TileMapManager/BasementToEntryStairs" index="4"]
 position = Vector2(128, -96)
 
-[node name="EntryToRoomStairs2" parent="TileMapManager" node_paths=PackedStringArray("link") instance=ExtResource("4_x8p1u")]
+[node name="EntryToRoomStairs2" parent="TileMapManager" node_paths=PackedStringArray("link") instance=ExtResource("4_81x4m")]
 position = Vector2(-56, -24)
 link = NodePath("../RoomToEntryStairs2")
 
@@ -165,7 +165,7 @@ position = Vector2(16, 0)
 [node name="CameraPoint" parent="TileMapManager/EntryToRoomStairs2" index="4"]
 position = Vector2(80, 0)
 
-[node name="RoomToEntryStairs2" parent="TileMapManager" node_paths=PackedStringArray("link") instance=ExtResource("4_x8p1u")]
+[node name="RoomToEntryStairs2" parent="TileMapManager" node_paths=PackedStringArray("link") instance=ExtResource("4_81x4m")]
 position = Vector2(-552, -24)
 link = NodePath("../EntryToRoomStairs2")
 
@@ -177,13 +177,13 @@ position = Vector2(-104, 0)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_msyrg")
-script = ExtResource("2_v1axc")
+script = ExtResource("5_pbgfy")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(24, -24)
 zoom = Vector2(2, 2)
 
-[node name="CharacterBody2D2" parent="." node_paths=PackedStringArray("dialouge_box", "destination") instance=ExtResource("1_j2uon")]
+[node name="CharacterBody2D2" parent="." node_paths=PackedStringArray("dialouge_box", "destination") instance=ExtResource("6_j1vmi")]
 position = Vector2(72, -72)
 dialouge_box = NodePath("../CanvasLayer/DialougeBox")
 destination = NodePath("../NpcDestination")
@@ -192,7 +192,7 @@ destination = NodePath("../NpcDestination")
 z_index = 1
 position = Vector2(-24, 8)
 motion_mode = 1
-script = ExtResource("1_im0n3")
+script = ExtResource("7_6lngv")
 SPEED = 100.0
 animation = NodePath("AnimatedSprite2D")
 interact_distance = 16
@@ -230,7 +230,7 @@ theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
-script = ExtResource("6_qdxx0")
+script = ExtResource("9_xrtqy")
 rich_text = NodePath("TextureRect/DialougeText")
 player = NodePath("../../PlayerBody2D")
 
@@ -264,14 +264,14 @@ theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
-script = ExtResource("11_54dxh")
+script = ExtResource("11_rvxkf")
 selector = NodePath("TextureRect/Selector")
 hbox = NodePath("TextureRect/HBoxContainer")
 metadata/_edit_use_anchors_ = true
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/ItemSelector"]
 layout_mode = 2
-texture = ExtResource("5_e6cjm")
+texture = ExtResource("10_pc5g7")
 expand_mode = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/ItemSelector/TextureRect"]
@@ -315,7 +315,7 @@ offset_bottom = 163.0
 [node name="NpcDestination" type="Node2D" parent="."]
 position = Vector2(-616, -72)
 
-[node name="Bed" parent="." instance=ExtResource("12_gymva")]
+[node name="Bed" parent="." instance=ExtResource("12_k70wm")]
 position = Vector2(-664, -88)
 
 [connection signal="bake_finished" from="NavigationRegion2D" to="TileMapManager" method="_post_baking"]

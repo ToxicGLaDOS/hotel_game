@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://b586bivk803dn"]
 
-[ext_resource type="Script" path="res://tile_map_manager.gd" id="1_7a1sk"]
-[ext_resource type="TileSet" uid="uid://cfj75ve127hdp" path="res://interior.tres" id="1_ok6p0"]
+[ext_resource type="Script" path="res://src/tile_map_manager.gd" id="1_7a1sk"]
+[ext_resource type="TileSet" uid="uid://cfj75ve127hdp" path="res://resources/interior.tres" id="1_ok6p0"]
 [ext_resource type="Texture2D" uid="uid://b12poelkjcx7h" path="res://images/ts_interiorDecorations.png" id="2_ebelm"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_auj7o"]

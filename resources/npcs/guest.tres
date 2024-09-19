@@ -1,0 +1,6 @@
+[gd_resource type="JSON" format=3 uid="uid://clv3f0l8omkqn"]
+
+[resource]
+data = {
+"dialogue": ["Hey I'm a guest", "Bring me to my room!"]
+}

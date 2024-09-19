@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://c85upihop1f2h"]
+[gd_scene load_steps=32 format=3 uid="uid://c85upihop1f2h"]
 
 [ext_resource type="PackedScene" uid="uid://b586bivk803dn" path="res://scenes/tile_maps.tscn" id="1_wvx64"]
 [ext_resource type="PackedScene" uid="uid://dib7ao0bk4044" path="res://scenes/objects/stairs.tscn" id="2_rhamc"]
@@ -7,11 +7,13 @@
 [ext_resource type="Script" path="res://src/navigation.gd" id="5_pbgfy"]
 [ext_resource type="PackedScene" uid="uid://bv6wavira5t7q" path="res://scenes/npc.tscn" id="6_j1vmi"]
 [ext_resource type="Script" path="res://src/player.gd" id="7_6lngv"]
+[ext_resource type="JSON" uid="uid://q6pyv00446ed" path="res://resources/npcs/employee.tres" id="7_i5j8r"]
 [ext_resource type="Texture2D" uid="uid://6w00xex8cejs" path="res://images/char_01.png" id="8_7t0km"]
 [ext_resource type="Script" path="res://src/gui/dialouge_box.gd" id="9_xrtqy"]
 [ext_resource type="Texture2D" uid="uid://c1573yuhpdxjd" path="res://images/dialogue_popup.png" id="10_pc5g7"]
 [ext_resource type="Script" path="res://src/gui/item_selector.gd" id="11_rvxkf"]
 [ext_resource type="PackedScene" uid="uid://g5t55nsq2pie" path="res://scenes/objects/bed.tscn" id="12_k70wm"]
+[ext_resource type="Script" path="res://scenes/guest_spawner.gd" id="13_wsqgk"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jxg44"]
 atlas = ExtResource("3_037ej")
@@ -183,10 +185,9 @@ script = ExtResource("5_pbgfy")
 position = Vector2(24, -24)
 zoom = Vector2(2, 2)
 
-[node name="CharacterBody2D2" parent="." node_paths=PackedStringArray("dialouge_box", "destination") instance=ExtResource("6_j1vmi")]
+[node name="CharacterBody2D2" parent="." instance=ExtResource("6_j1vmi")]
 position = Vector2(72, -72)
-dialouge_box = NodePath("../CanvasLayer/DialougeBox")
-destination = NodePath("../NpcDestination")
+npc_json = ExtResource("7_i5j8r")
 
 [node name="PlayerBody2D" type="CharacterBody2D" parent="." node_paths=PackedStringArray("animation", "raycast", "tile_map_manager", "camera", "item_selector")]
 z_index = 1
@@ -222,7 +223,7 @@ collide_with_areas = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="DialougeBox" type="MarginContainer" parent="CanvasLayer" node_paths=PackedStringArray("rich_text", "player")]
+[node name="DialogueBox" type="MarginContainer" parent="CanvasLayer" node_paths=PackedStringArray("rich_text", "player")]
 visible = false
 anchors_preset = 12
 anchor_top = 1.0
@@ -236,15 +237,15 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 script = ExtResource("9_xrtqy")
-rich_text = NodePath("TextureRect/DialougeText")
+rich_text = NodePath("TextureRect/DialogueText")
 player = NodePath("../../PlayerBody2D")
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/DialougeBox"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/DialogueBox"]
 layout_mode = 2
 texture = SubResource("CanvasTexture_4n076")
 expand_mode = 1
 
-[node name="DialougeText" type="RichTextLabel" parent="CanvasLayer/DialougeBox/TextureRect"]
+[node name="DialogueText" type="RichTextLabel" parent="CanvasLayer/DialogueBox/TextureRect"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -322,6 +323,14 @@ position = Vector2(-616, -72)
 
 [node name="Bed" parent="." instance=ExtResource("12_k70wm")]
 position = Vector2(-664, -88)
+
+[node name="GuestSpawner" type="Node2D" parent="." node_paths=PackedStringArray("front_desk_position")]
+script = ExtResource("13_wsqgk")
+guests = Array[PackedScene]([ExtResource("6_j1vmi")])
+front_desk_position = NodePath("FrontDeskPoint")
+
+[node name="FrontDeskPoint" type="Node2D" parent="GuestSpawner"]
+position = Vector2(40, -40)
 
 [connection signal="bake_finished" from="NavigationRegion2D" to="TileMapManager" method="_post_baking"]
 [connection signal="area_entered" from="PlayerBody2D/TransitionTrigger" to="PlayerBody2D" method="_on_transition_trigger_area_entered"]

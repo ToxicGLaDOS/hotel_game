@@ -1,29 +1,37 @@
 extends CharacterBody2D
+class_name NPC
 
-@export var dialouge_box: DialougeBox
-@export var interact_text: Array[String]
-@export var nav_agent: NavigationAgent2D
 @export var speed: float
-@export var destination: Node2D
+@export var npc_json: JSON
 var interacting = false
+var dialouge_box: DialougeBox
+var nav_agent: NavigationAgent2D
+var npc_data: Dictionary
+var interact_text: Array[String]
 
 func interact(player: Player):
     dialouge_box.open(end_interaction)
     dialouge_box.set_text_series(interact_text)
     interacting = true
 
+func _ready():
+    # TOOD: I don't like getting nodes by name, but
+    # this is probably fine for now
+    dialouge_box = get_node("/root/Root/CanvasLayer/DialogueBox")
+    nav_agent = find_child("NavigationAgent2D")
+    npc_data = npc_json.data
+    # Functions as a cast to Array[String] from Array
+    var dialogue: Array[String]
+    dialogue.assign(npc_data["dialogue"])
+
+    interact_text = dialogue
+
 func end_interaction():
     interacting = false
 
-func _ready():
-    # call_deferred ensures that we wait until the
-    # navigation server is ready before trying to
-    # get a path to the target
-    call_deferred("set_target")
-
-func set_target():
-    await get_tree().create_timer(1).timeout
-    nav_agent.set_target_position(destination.global_position)
+func set_target(dest: Vector2):
+    # dest is a global position
+    nav_agent.set_target_position(dest)
 
 func _physics_process(_delta):
     if not interacting:

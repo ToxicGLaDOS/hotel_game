@@ -1,0 +1,6 @@
+[gd_resource type="JSON" format=3 uid="uid://q6pyv00446ed"]
+
+[resource]
+data = {
+"dialogue": ["I'm an employee.", "I have different dialogue than the guest, wow :)"]
+}

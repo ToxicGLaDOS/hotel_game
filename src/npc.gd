@@ -13,6 +13,7 @@ func interact(player: Player):
     dialouge_box.open(end_interaction)
     dialouge_box.set_text_series(interact_text)
     interacting = true
+    set_target(Vector2(-616, -72))
 
 func _ready():
     # TOOD: I don't like getting nodes by name, but
@@ -35,6 +36,10 @@ func set_target(dest: Vector2):
 
 func _physics_process(_delta):
     if not interacting:
+        # Waiting until physics_frame solves intermittent
+        # NavigationServer map query failed errors
+        # https://github.com/godotengine/godot/issues/84677
+        await get_tree().physics_frame
         if nav_agent.is_navigation_finished():
             return
 

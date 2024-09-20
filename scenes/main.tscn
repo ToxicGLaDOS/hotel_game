@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://c85upihop1f2h"]
+[gd_scene load_steps=33 format=3 uid="uid://c85upihop1f2h"]
 
 [ext_resource type="PackedScene" uid="uid://b586bivk803dn" path="res://scenes/tile_maps.tscn" id="1_wvx64"]
 [ext_resource type="PackedScene" uid="uid://dib7ao0bk4044" path="res://scenes/objects/stairs.tscn" id="2_rhamc"]
@@ -19,8 +19,12 @@
 atlas = ExtResource("3_037ej")
 region = Rect2(48, 64, 16, 16)
 
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_1y6tj"]
+outlines = Array[PackedVector2Array]([PackedVector2Array(136, -136, -88, -136, -88, 72, 136, 72)])
+source_geometry_group_name = &"navigation_polygon_source_group"
+
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_msyrg"]
-outlines = Array[PackedVector2Array]([PackedVector2Array(808, -264, -776, -280, -808, 224, 808, 136)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-520, -136, -760, -136, -760, 88, -520, 88)])
 parsed_geometry_type = 1
 source_geometry_mode = 1
 source_geometry_group_name = &"navigation"
@@ -128,8 +132,7 @@ region = Rect2(64, 32, 16, 16)
 
 [node name="Root" type="Node2D"]
 
-[node name="TileMapManager" parent="." node_paths=PackedStringArray("navigation") instance=ExtResource("1_wvx64")]
-navigation = NodePath("../NavigationRegion2D")
+[node name="TileMapManager" parent="." instance=ExtResource("1_wvx64")]
 
 [node name="EntryToBasementStairs" parent="TileMapManager" node_paths=PackedStringArray("link") instance=ExtResource("2_rhamc")]
 position = Vector2(88, 24)
@@ -177,7 +180,11 @@ position = Vector2(-16, 0)
 [node name="CameraPoint" parent="TileMapManager/RoomToEntryStairs2" index="4"]
 position = Vector2(-104, 0)
 
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." groups=["room_navigation"]]
+navigation_polygon = SubResource("NavigationPolygon_1y6tj")
+script = ExtResource("5_pbgfy")
+
+[node name="NavigationRegion2D2" type="NavigationRegion2D" parent="." groups=["room_navigation"]]
 navigation_polygon = SubResource("NavigationPolygon_msyrg")
 script = ExtResource("5_pbgfy")
 
@@ -333,6 +340,7 @@ front_desk_position = NodePath("FrontDeskPoint")
 position = Vector2(40, -40)
 
 [connection signal="bake_finished" from="NavigationRegion2D" to="TileMapManager" method="_post_baking"]
+[connection signal="bake_finished" from="NavigationRegion2D2" to="TileMapManager" method="_post_baking"]
 [connection signal="area_entered" from="PlayerBody2D/TransitionTrigger" to="PlayerBody2D" method="_on_transition_trigger_area_entered"]
 
 [editable path="TileMapManager/EntryToBasementStairs"]

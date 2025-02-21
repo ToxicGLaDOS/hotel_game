@@ -184,11 +184,11 @@ position = Vector2(-16, 0)
 [node name="CameraPoint" parent="TileMapManager/RoomToEntryStairs2" index="4"]
 position = Vector2(-104, 0)
 
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." groups=["room_navigation"]]
+[node name="LobbyNav" type="NavigationRegion2D" parent="." groups=["room_navigation"]]
 navigation_polygon = SubResource("NavigationPolygon_1y6tj")
 script = ExtResource("5_pbgfy")
 
-[node name="NavigationRegion2D2" type="NavigationRegion2D" parent="." groups=["room_navigation"]]
+[node name="RoomNav" type="NavigationRegion2D" parent="." groups=["room_navigation"]]
 navigation_polygon = SubResource("NavigationPolygon_msyrg")
 script = ExtResource("5_pbgfy")
 
@@ -343,8 +343,8 @@ front_desk_position = NodePath("FrontDeskPoint")
 [node name="FrontDeskPoint" type="Node2D" parent="GuestSpawner"]
 position = Vector2(40, -40)
 
-[connection signal="bake_finished" from="NavigationRegion2D" to="TileMapManager" method="_post_baking"]
-[connection signal="bake_finished" from="NavigationRegion2D2" to="TileMapManager" method="_post_baking"]
+[connection signal="bake_finished" from="LobbyNav" to="TileMapManager" method="_post_baking"]
+[connection signal="bake_finished" from="RoomNav" to="TileMapManager" method="_post_baking"]
 [connection signal="area_entered" from="PlayerBody2D/TransitionTrigger" to="PlayerBody2D" method="_on_transition_trigger_area_entered"]
 
 [editable path="TileMapManager/EntryToBasementStairs"]

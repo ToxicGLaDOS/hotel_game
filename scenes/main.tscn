@@ -20,10 +20,14 @@ atlas = ExtResource("3_037ej")
 region = Rect2(48, 64, 16, 16)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_1y6tj"]
+vertices = PackedVector2Array(126, 62, -78, 62, -78, -126, 126, -126)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(136, -136, -88, -136, -88, 72, 136, 72)])
 source_geometry_group_name = &"navigation_polygon_source_group"
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_msyrg"]
+vertices = PackedVector2Array(-533, 75, -533, -125, -531, -125, -531, 77, -749, 77, -747, 75, -749, -125, -747, -125, -571, 28, -709, 28, -709, -85, -571, -85)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(0, 3, 4, 5), PackedInt32Array(5, 4, 6, 7), PackedInt32Array(8, 9, 10, 11)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-520, -136, -760, -136, -760, 88, -520, 88)])
 parsed_geometry_type = 1
 source_geometry_mode = 1
